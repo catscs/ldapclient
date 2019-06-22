@@ -38,24 +38,16 @@ class LdapClientTest extends TestCase
     {
         $ldap  = new LdapClient();
         $ldap->connection($this->server, $this->port, $this->user, $this->password, $this->options);
-        $result = $ldap->search($this->baseDn, $this->filter);
-        $this->assertTrue($result);
+        $class = $ldap->search($this->baseDn, $this->filter);
+        $this->assertInstanceOf(LdapClient::class, $class);
     }
 
-    public function testSearchFail()
-    {
-        $ldap  = new LdapClient();
-        $ldap->connection($this->server, $this->port, $this->user, $this->password, $this->options);
-        $result = $ldap->search($this->baseDn.'1', $this->filter);
-        $this->assertFalse($result);
-    }
 
     public function testGetEntitiesSuccess()
     {
         $ldap  = new LdapClient();
         $ldap->connection($this->server, $this->port, $this->user, $this->password, $this->options);
-        $ldap->search($this->baseDn, $this->filter);
-        $entries = $ldap->getEntries();
+        $entries = $ldap->search($this->baseDn, $this->filter)->getEntries();
         $this->assertIsArray($entries);
         $this->assertArrayHasKey('count', $entries);
     }
@@ -65,8 +57,7 @@ class LdapClientTest extends TestCase
     {
         $ldap  = new LdapClient();
         $ldap->connection($this->server, $this->port, $this->user, $this->password, $this->options);
-        $ldap->search($this->baseDn.'1', $this->filter);
-        $entries = $ldap->getEntries();
+        $entries = $ldap->search($this->baseDn.'1', $this->filter)->getEntries();
         $this->assertIsArray($entries);
         $this->assertArrayNotHasKey('count', $entries);
     }

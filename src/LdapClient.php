@@ -29,12 +29,12 @@ class LdapClient
     /**
      * @param string $baseDn
      * @param string $searchFilter
-     * @return bool
+     * @return LdapClient
      */
-    public function search(string $baseDn, string $searchFilter): bool
+    public function search(string $baseDn, string $searchFilter): self
     {
         $this->result = @ldap_search($this->connection, $baseDn, $searchFilter);
-        return ( $this->result == false) ? false : true;
+        return $this;
     }
 
     /**
