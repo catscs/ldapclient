@@ -42,7 +42,7 @@ class LdapClient
      */
     public function getEntries(): array
     {
-        return $this->result ? @ldap_get_entries($this->connection, $this->result) : [];
+        return $this->result ? @ldap_get_entries($this->connection, $this->result) : ['error' => 'configuration error search'];
     }
 
     /**
